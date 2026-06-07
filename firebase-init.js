@@ -1,15 +1,20 @@
+// firebase-init.js — AN Erkən Müdaxilə & İnkişaf Platforması
+// Firebase v12 (modular) SDK — CDN ESM. Standalone HTML + vanilla JS.
+// Qeyd: config açıqdır (Təlimat istisnası) — qorunma DB Rules ilədir.
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "KONSOLDAN_KÖÇÜR",
+  apiKey: "AIzaSyCBhyGNzZRGgQShP_C9kwAzTm_g_0zJlzg",
   authDomain: "an-psixoloji-33442.firebaseapp.com",
-  databaseURL: "KONSOLDAN_KÖÇÜR",          // məs: https://an-psixoloji-33442-default-rtdb.firebaseio.com
+  databaseURL: "https://an-psixoloji-33442-default-rtdb.firebaseio.com",
   projectId: "an-psixoloji-33442",
-  storageBucket: "KONSOLDAN_KÖÇÜR",
-  messagingSenderId: "KONSOLDAN_KÖÇÜR",
-  appId: "KONSOLDAN_KÖÇÜR"
+  storageBucket: "an-psixoloji-33442.firebasestorage.app",
+  messagingSenderId: "528809299356",
+  appId: "1:528809299356:web:59cae89a64e446dc520c59",
+  measurementId: "G-1D7YD0Y0PD"
 };
 
 export let app = null, auth = null, db = null, initError = null;
@@ -24,11 +29,7 @@ function banner(text){
   if(document.body) make(); else document.addEventListener("DOMContentLoaded", make);
 }
 
-const PH = "KONSOLDAN_KÖÇÜR";
-const missing = Object.entries(firebaseConfig).filter(([k,v])=>!v || v===PH).map(([k])=>k);
-
 try{
-  if(missing.length) throw new Error("Firebase config doldurulmayıb → " + missing.join(", "));
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getDatabase(app);
