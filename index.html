@@ -202,6 +202,7 @@
     <div class="modal-actions" style="margin-top:14px;">
       <button class="btn secondary" id="dClose" data-i18n="close">Bağla</button>
       <button class="btn" id="dScreen" data-i18n="startScreening">Skrininq et</button>
+      <button class="btn" id="dScreenV2" data-i18n="startScreeningV2">İnkişaf skrininqi (v2)</button>
     </div>
   </div>
 </div>
@@ -222,7 +223,7 @@ const I18N = {
     newChild:"Yeni uşaq-kartı",
     consentText:"Bu məlumatlar yalnız övladınızın inkişafını izləmək üçündür. Təhlükəsiz saxlanılır və yalnız siz, təyin olunmuş terapevt və mərkəz admini görə bilər. Razılığı istənilən vaxt geri götürə bilərsiniz.",
     consentAgree:"Razılıq verirəm", childName:"Uşağın adı", birthDate:"Doğum tarixi", gender:"Cins", genderPick:"Seçin", boy:"Oğlan", girl:"Qız",
-    cancel:"Ləğv et", create:"Yarat", close:"Bağla", startScreening:"Skrininq et",
+    cancel:"Ləğv et", create:"Yarat", close:"Bağla", startScreening:"Skrininq et", startScreeningV2:"İnkişaf skrininqi (v2)",
     histTitle:"Skrininq tarixçəsi", noScreening:"Hələ skrininq yoxdur.",
     needConsent:"Davam etmək üçün razılıq verin.", needName:"Uşağın adını yazın.", creating:"Yaradılır…",
     eFill:"E-poçt və parolu doldurun.", ePhone:"Düzgün nömrə daxil edin (+994…).", eCode:"Kodu daxil edin.",
@@ -239,7 +240,7 @@ const I18N = {
     newChild:"Новая карта ребёнка",
     consentText:"Эти данные используются только для отслеживания развития вашего ребёнка. Хранятся безопасно и доступны только вам, назначенному терапевту и администратору центра. Согласие можно отозвать в любое время.",
     consentAgree:"Я даю согласие", childName:"Имя ребёнка", birthDate:"Дата рождения", gender:"Пол", genderPick:"Выберите", boy:"Мальчик", girl:"Девочка",
-    cancel:"Отмена", create:"Создать", close:"Закрыть", startScreening:"Пройти скрининг",
+    cancel:"Отмена", create:"Создать", close:"Закрыть", startScreening:"Пройти скрининг", startScreeningV2:"Скрининг развития (v2)",
     histTitle:"История скрининга", noScreening:"Скрининга ещё нет.",
     needConsent:"Дайте согласие, чтобы продолжить.", needName:"Введите имя ребёнка.", creating:"Создаётся…",
     eFill:"Заполните почту и пароль.", ePhone:"Введите корректный номер (+994…).", eCode:"Введите код.",
@@ -350,6 +351,7 @@ function closeDetail(){ detailModal.classList.add("hidden"); }
 document.getElementById("dClose").onclick=closeDetail;
 detailModal.addEventListener("click",e=>{ if(e.target===detailModal) closeDetail(); });
 document.getElementById("dScreen").onclick=()=>{ if(detailChild) location.href="./skrininq.html?child="+encodeURIComponent(detailChild.id); };
+document.getElementById("dScreenV2").onclick=()=>{ if(detailChild) location.href="./skrininq-v2.html?child="+encodeURIComponent(detailChild.id); };
 
 const modal=document.getElementById("childModal"),modalMsg=document.getElementById("modalMsg");
 const cName=document.getElementById("cName"),cBirth=document.getElementById("cBirth"),cGender=document.getElementById("cGender"),consentChk=document.getElementById("consentChk"),cSave=document.getElementById("cSave"),cCancel=document.getElementById("cCancel");
