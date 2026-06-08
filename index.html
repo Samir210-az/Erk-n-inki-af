@@ -144,7 +144,11 @@
       <h2><span data-i18n="welcome">Xoş gəldiniz</span><span id="who"></span></h2>
       <div class="badge"><span data-i18n="role">Rol</span>: <span id="role">—</span></div>
     </div>
-    <div class="dash">
+    <div class="dash hidden" id="centerTools">
+      <div class="dash-head"><h3 data-i18n="centerTools">Mərkəz alətləri</h3></div>
+      <a href="./meqsedler.html" style="display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:9px;color:var(--brand-dark);font-weight:800;font-size:15px;"><span data-i18n="toolGoals">Məqsəd Kitabxanası</span><span style="color:var(--muted);font-size:18px;">›</span></a>
+    </div>
+    <div class="dash" id="parentDash">
       <div class="dash-head">
         <h3 data-i18n="myChildren">Övladlarım</h3>
         <button class="btn-add" id="addChild" data-i18n="addChild">+ Uşaq əlavə et</button>
@@ -206,6 +210,7 @@ const I18N = {
     name:"Ad, Soyad", email:"E-poçt", password:"Parol", phone:"Telefon nömrəsi", sendCode:"Kod göndər", smsCode:"SMS kodu", confirm:"Təsdiqlə",
     welcome:"Xoş gəldiniz", role:"Rol", logout:"Çıxış", madeBy:"Hazırladı",
     rolValideyn:"Valideyn", rolTerapevt:"Terapevt", rolAdmin:"Admin",
+    centerTools:"Mərkəz alətləri", toolGoals:"Məqsəd Kitabxanası",
     myChildren:"Övladlarım", addChild:"+ Uşaq əlavə et", noChildren:"Hələ uşaq əlavə etməmisiniz.",
     newChild:"Yeni uşaq-kartı",
     consentText:"Bu məlumatlar yalnız övladınızın inkişafını izləmək üçündür. Təhlükəsiz saxlanılır və yalnız siz, təyin olunmuş terapevt və mərkəz admini görə bilər. Razılığı istənilən vaxt geri götürə bilərsiniz.",
@@ -221,6 +226,7 @@ const I18N = {
     name:"Имя, Фамилия", email:"Эл. почта", password:"Пароль", phone:"Номер телефона", sendCode:"Отправить код", smsCode:"SMS-код", confirm:"Подтвердить",
     welcome:"Добро пожаловать", role:"Роль", logout:"Выход", madeBy:"Автор",
     rolValideyn:"Родитель", rolTerapevt:"Терапевт", rolAdmin:"Администратор",
+    centerTools:"Инструменты центра", toolGoals:"Библиотека целей",
     myChildren:"Мои дети", addChild:"+ Добавить", noChildren:"Вы ещё не добавили ребёнка.",
     newChild:"Новая карта ребёнка",
     consentText:"Эти данные используются только для отслеживания развития вашего ребёнка. Хранятся безопасно и доступны только вам, назначенному терапевту и администратору центра. Согласие можно отозвать в любое время.",
@@ -362,7 +368,10 @@ onUser((user, rol)=>{
     const ad=user.displayName||user.email||user.phoneNumber||"";
     document.getElementById("who").textContent=ad?", "+ad.split("@")[0]:"";
     document.getElementById("role").textContent=t(rolMap[currentRol]||"rolValideyn");
-    addChildBtn.classList.toggle("hidden", currentRol==="terapevt");
+    const isAdmin=currentRol==="admin", isTher=currentRol==="terapevt";
+    document.getElementById("centerTools").classList.toggle("hidden", !(isAdmin||isTher));
+    document.getElementById("parentDash").classList.toggle("hidden", isAdmin);
+    addChildBtn.classList.toggle("hidden", isTher||isAdmin);
     loadChildren();
   }else{
     currentUid=null; currentRol=null; childrenCache=[];
