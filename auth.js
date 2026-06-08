@@ -19,22 +19,24 @@ export async function ensureUserRecord(user, extra = {}) {
   const uRef = ref(db, `users/${user.uid}`);
   const snap = await get(uRef);
   if (!snap.exists()) {
-    await set(uRef, {
+    const rec = {
       rol: "valideyn",          // default; yüksəltməni yalnız admin edir
       tier: "pulsuz",           // "pulsuz" | "premium" (dərinləşdirilmiş scoring üçün)
       ad: extra.ad || user.displayName || "",
       telefon: extra.telefon || user.phoneNumber || "",
       email: user.email || "",
       createdAt: Date.now()
-    });
+    };
+    if (extra.talebRol === "terapevt") rec.talebRol = "terapevt";  // admin görsün, özü rol vermir
+    await set(uRef, rec);
   }
   return (await get(uRef)).val();
 }
 
 // ── E-poçt + parol ────────────────────────────────────────────────
-export async function registerWithEmail(email, password, ad = "") {
+export async function registerWithEmail(email, password, ad = "", opts = {}) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
-  await ensureUserRecord(cred.user, { ad });
+  await ensureUserRecord(cred.user, { ad, talebRol: opts.talebRol });
   return cred.user;
 }
 
