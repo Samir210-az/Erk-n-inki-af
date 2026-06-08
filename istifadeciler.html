@@ -38,6 +38,8 @@
   .urow .umeta{color:var(--muted);font-weight:600;font-size:12.5px;margin-top:2px;word-break:break-word;}
   .urow .urowb{display:flex;align-items:center;gap:8px;margin-top:10px;}
   .urow select{flex:1;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;}
+  .urow .savebtn{flex:0 0 auto;border:0;background:var(--brand);color:#fff;font-family:inherit;font-weight:800;font-size:13px;padding:9px 14px;border-radius:10px;cursor:pointer;}
+  .urow .savebtn:active{transform:scale(.96);}
   .badge-req{display:inline-block;font-size:11px;font-weight:800;color:var(--accent);background:var(--amber-soft);border-radius:999px;padding:2px 9px;margin-top:6px;}
   .rowmsg{font-size:12px;font-weight:800;color:var(--brand-dark);min-width:64px;text-align:right;}
   .rowmsg.err{color:var(--danger);}
@@ -102,7 +104,7 @@ const T = {
     backHome:"‹ Panelə qayıt", title:"İstifadəçilər", lead:"Rolları idarə et. Terapevt rolunu yalnız sən verə bilərsən.",
     searchPh:"Ad və ya e-poçt üzrə axtar", madeBy:"Hazırladı",
     rolValideyn:"Valideyn", rolTerapevt:"Terapevt", rolAdmin:"Admin",
-    reqTher:"terapevt istəyib", saved:"✓ saxlanıldı", err:"xəta",
+    reqTher:"terapevt istəyib", saved:"✓ saxlanıldı", err:"xəta", save:"Saxla",
     cntN:n=>`${n} istifadəçi`, empty:"İstifadəçi tapılmadı.", noPhone:"telefon yoxdur" },
   ru:{ brandSub:"Пользователи", logout:"Выход",
     needLoginT:"Требуется вход", needLoginP:"Войдите в аккаунт для этой страницы.", goLogin:"Страница входа",
@@ -110,7 +112,7 @@ const T = {
     backHome:"‹ В панель", title:"Пользователи", lead:"Управление ролями. Роль терапевта назначаете только вы.",
     searchPh:"Поиск по имени или эл. почте", madeBy:"Автор",
     rolValideyn:"Родитель", rolTerapevt:"Терапевт", rolAdmin:"Администратор",
-    reqTher:"запросил терапевта", saved:"✓ сохранено", err:"ошибка",
+    reqTher:"запросил терапевта", saved:"✓ сохранено", err:"ошибка", save:"Сохранить",
     cntN:n=>`${n} пользователей`, empty:"Пользователи не найдены.", noPhone:"нет телефона" },
 };
 
@@ -160,12 +162,17 @@ function render(){
           <option value="terapevt"${u.rol==="terapevt"?" selected":""}>${esc(t("rolTerapevt"))}</option>
           <option value="admin"${u.rol==="admin"?" selected":""}>${esc(t("rolAdmin"))}</option>
         </select>
+        <button class="savebtn" data-save="${esc(u.uid)}">${esc(t("save"))}</button>
         <span class="rowmsg" data-msg="${esc(u.uid)}"></span>
       </div>`;
     wrap.appendChild(el);
   });
-  wrap.querySelectorAll("select[data-uid]").forEach(sel=>{
-    sel.onchange=()=>setRole(sel.dataset.uid, sel.value);
+  wrap.querySelectorAll("button[data-save]").forEach(btn=>{
+    btn.onclick=()=>{
+      const uid=btn.dataset.save;
+      const sel=wrap.querySelector(`select[data-uid="${CSS.escape(uid)}"]`);
+      setRole(uid, sel.value);
+    };
   });
 }
 
@@ -177,7 +184,8 @@ async function setRole(uid, rol){
     await update(ref(db,`users/${uid}`), { rol, talebRol:null });
     const u=users.find(x=>x.uid===uid); if(u){ u.rol=rol; u.talebRol=null; }
     if(msg) msg.textContent=t("saved");
-    setTimeout(()=>{ if(msg) msg.textContent=""; render(); }, 1200);
+    const row=msg?msg.closest(".urow"):null;
+    if(row){ row.classList.remove("req"); const b=row.querySelector(".badge-req"); if(b) b.remove(); }
   }catch(e){
     if(msg){ msg.classList.add("err"); msg.textContent=t("err"); }
   }
