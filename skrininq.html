@@ -162,7 +162,17 @@ const QUESTIONS = [
   {id:"q17", dom:"davranis", concern:"yes", az:"Əşyaları sıraya düzmək, fırlatmaq və ya bir hərəkəti uzun təkrarlamağa güclü meyl göstərir?", ru:"Есть сильная склонность выстраивать предметы в ряд, крутить или подолгу повторять действие?"},
   {id:"q18", dom:"davranis", concern:"yes", az:"Səs, işıq, toxunuş və ya dada qeyri-adi həssaslıq, ya da tam laqeydlik göstərir?", ru:"Проявляет необычную чувствительность или безразличие к звукам, свету, прикосновениям, вкусам?"},
   {id:"q19", dom:"davranis", concern:"yes", az:"Gündəlik rejimdə kiçik dəyişikliyə güclü narahatlıq və ya etiraz göstərir?", ru:"Сильно беспокоится или протестует при небольших изменениях в распорядке?"},
-  {id:"q20", dom:"emosional", concern:"yes", az:"Əvvəl bacardığı bacarıqları (sözlər, göz təması, jestlər) itiribmi?", ru:"Терял ли ранее приобретённые навыки (слова, зрительный контакт, жесты)?"}
+  {id:"q20", dom:"emosional", concern:"yes", az:"Əvvəl bacardığı bacarıqları (sözlər, göz təması, jestlər) itiribmi?", ru:"Терял ли ранее приобретённые навыки (слова, зрительный контакт, жесты)?"},
+  {id:"q21", dom:"motor", concern:"no", az:"Yaşına uyğun yaxşı yeriyir, qaçır və ya tullanır?", ru:"Хорошо ходит, бегает или прыгает соответственно возрасту?"},
+  {id:"q22", dom:"motor", concern:"no", az:"Müvazinətini saxlayır, tez-tez səbəbsiz yıxılmır?", ru:"Удерживает равновесие, не падает часто без причины?"},
+  {id:"q23", dom:"motor", concern:"no", az:"Kiçik əşyaları barmaqları ilə tutub istifadə edir (qələm, qaşıq)?", ru:"Берёт мелкие предметы пальцами и пользуется ими (карандаш, ложка)?"},
+  {id:"q24", dom:"motor", concern:"no", az:"Kublardan qüllə qurmaq, qələmlə cızmaq kimi əl işlərini edir?", ru:"Выполняет действия руками (строит башню из кубиков, рисует карандашом)?"},
+  {id:"q25", dom:"ozunexidmet", concern:"no", az:"Yaşına uyğun özü yeyir (qaşıq/fincan istifadə edir)?", ru:"Ест самостоятельно по возрасту (пользуется ложкой/чашкой)?"},
+  {id:"q26", dom:"ozunexidmet", concern:"no", az:"Geyinmə/soyunmada iştirak edir, sadə əməliyyatları edir?", ru:"Участвует в одевании/раздевании, выполняет простые действия?"},
+  {id:"q27", dom:"ozunexidmet", concern:"no", az:"Əl yumaq kimi sadə gigiyena vərdişlərini yerinə yetirir?", ru:"Выполняет простые гигиенические навыки (мытьё рук)?"},
+  {id:"q28", dom:"idrak", concern:"no", az:"Sadə əşya, rəng və ya formaları tanıyır?", ru:"Узнаёт простые предметы, цвета или формы?"},
+  {id:"q29", dom:"idrak", concern:"no", az:"Diqqətini bir oyuna və ya tapşırığa bir neçə dəqiqə cəmləyir?", ru:"Сосредотачивает внимание на игре или задании на несколько минут?"},
+  {id:"q30", dom:"idrak", concern:"no", az:"Sadə problemləri həll etməyə cəhd edir (qutu açmaq, oyuncaq quraşdırmaq)?", ru:"Пытается решать простые задачи (открыть коробку, собрать игрушку)?"}
 ];
 
 const UI = {
@@ -181,7 +191,7 @@ const UI = {
     premiumT:"Dərinləşdirilmiş analiz (sahələr üzrə)", premiumLock:"🔒 Bu hissə Premium-da əlçatandır.",
     saved:"Nəticə uşağın kartına yazıldı.", saveErr:"Nəticə saxlanmadı",
     reportFor:"Hesabat:", reportDate:"Tarix:",
-    domSosial:"Sosial / ünsiyyət", domKommunikasiya:"Kommunikasiya", domOyun:"Oyun / təqlid", domDavranis:"Davranış / sensor", domEmosional:"Emosional" },
+    domSosial:"Sosial / ünsiyyət", domKommunikasiya:"Kommunikasiya", domOyun:"Oyun / təqlid", domDavranis:"Davranış / sensor", domEmosional:"Emosional", domMotor:"Motorika", domOzunexidmet:"Özünəxidmət", domIdrak:"İdrak / koqnitiv" },
   ru:{ brandSub:"Скрининг развития", needLoginT:"Требуется вход", needLoginP:"Войдите в аккаунт, чтобы начать скрининг.",
     goLogin:"Страница входа", pickT:"Для какого ребёнка?", pickP:"Результат будет сохранён в карте выбранного ребёнка.",
     pickEmpty:"Сначала добавьте ребёнка в панели родителя.", toPanel:"В панель", yes:"Да", no:"Нет", back:"‹ Предыдущий вопрос",
@@ -197,7 +207,7 @@ const UI = {
     premiumT:"Углублённый анализ (по областям)", premiumLock:"🔒 Доступно в Premium.",
     saved:"Результат сохранён в карте ребёнка.", saveErr:"Не удалось сохранить результат",
     reportFor:"Отчёт:", reportDate:"Дата:",
-    domSosial:"Социальное / общение", domKommunikasiya:"Коммуникация", domOyun:"Игра / подражание", domDavranis:"Поведение / сенсорика", domEmosional:"Эмоции" }
+    domSosial:"Социальное / общение", domKommunikasiya:"Коммуникация", domOyun:"Игра / подражание", domDavranis:"Поведение / сенсорика", domEmosional:"Эмоции", domMotor:"Моторика", domOzunexidmet:"Самообслуживание", domIdrak:"Когнитивные" }
 };
 let lang="az";
 const t=k=>(UI[lang][k]??k);
@@ -259,7 +269,7 @@ function scoreIt(){
   });
   return {total,dom};
 }
-function triage(s){ if(s<=2)return"asagi"; if(s<=6)return"orta"; return"yuksek"; }
+function triage(s){ const n=QUESTIONS.length; if(s<=Math.round(n*0.1))return"asagi"; if(s<=Math.round(n*0.3))return"orta"; return"yuksek"; }
 
 async function finish(){
   const {total,dom}=scoreIt();
@@ -279,13 +289,13 @@ function renderResult(){
   const box=document.getElementById("riskBox");
   box.className="risk "+(risk==="asagi"?"low":risk==="orta"?"med":"high");
   document.getElementById("riskTitle").textContent=risk==="asagi"?t("lowT"):risk==="orta"?t("medT"):t("highT");
-  document.getElementById("riskScore").textContent=t("score")+": "+total+" / 20";
+  document.getElementById("riskScore").textContent=t("score")+": "+total+" / "+QUESTIONS.length;
   document.getElementById("riskMsg").textContent=risk==="asagi"?t("lowM"):risk==="orta"?t("medM"):t("highM");
   const refer=document.getElementById("referBox");
   if(risk==="asagi"){refer.classList.add("hidden");}
   else{refer.classList.remove("hidden");refer.textContent=(risk==="yuksek"?t("referHigh"):t("referMed"));}
   const p=document.getElementById("premiumBox");
-  const domNames={sosial:"domSosial",kommunikasiya:"domKommunikasiya",oyun:"domOyun",davranis:"domDavranis",emosional:"domEmosional"};
+  const domNames={sosial:"domSosial",kommunikasiya:"domKommunikasiya",oyun:"domOyun",emosional:"domEmosional",idrak:"domIdrak",motor:"domMotor",ozunexidmet:"domOzunexidmet",davranis:"domDavranis"};
   if(currentTier==="premium" || isAdmin){
     let html="<h3>"+t("premiumT")+"</h3>";
     Object.keys(domNames).forEach(d=>{
