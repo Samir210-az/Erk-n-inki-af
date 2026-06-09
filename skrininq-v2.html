@@ -89,6 +89,9 @@
   .premium .dcard p b{color:var(--brand-dark);}
   .premium .rep-ok{color:var(--ink);font-weight:600;font-size:13.5px;line-height:1.5;}
   .premium .rep-p{color:var(--ink);font-weight:600;font-size:13.5px;line-height:1.55;margin:4px 0 0;}
+  .howto{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 12px;}
+  .howto summary{cursor:pointer;font-weight:800;color:var(--brand-dark);font-size:14px;}
+  .howto p{margin:8px 0 0;font-size:13px;line-height:1.55;color:var(--ink);font-weight:600;}
 </style>
 </head>
 <body>
@@ -114,6 +117,11 @@
     <a class="back" href="./index.html" data-i18n="backHome">‹ Panelə qayıt</a>
     <h1 data-i18n="pickT">Uşağı seçin</h1>
     <p class="lead" data-i18n="pickP">Skrininqi hansı uşaq üçün doldurursunuz?</p>
+    <details class="howto">
+      <summary data-i18n="htT">Skrininq nədir? Necə keçirilir?</summary>
+      <p data-i18n="htWhat">—</p>
+      <p data-i18n="htHow">—</p>
+    </details>
     <div id="pickList"></div>
     <div class="empty hidden" id="pickEmpty" data-i18n="pickEmpty">Əlçatan uşaq yoxdur.</div>
   </div>
@@ -257,7 +265,7 @@ const FU = [
 ];
 
 const T = {
-  az:{ brandSub:"İnkişaf Skrininqi v2", logout:"Çıxış",
+  az:{ brandSub:"İnkişaf Skrininqi v2", htT:"Skrininq nədir? Necə keçirilir?", htWhat:"Skrininq — uşağın inkişafını qısa suallarla ilkin yoxlamadır. Bu, diaqnoz deyil; yalnız diqqət tələb edən sahələri aşkarlayıb mütəxəssisə yönləndirməyə kömək edir.", htHow:"Necə keçirilir: uşaq sakit və dincəlmiş olsun; hər bənddə son 1–2 ayda müşahidə etdiyiniz davranışa görə ən uyğun cavabı seçin; dürüst cavablandırın — adi günə görə ('ən yaxşı' günə görə yox). Cavablandıran valideyn və ya mütəxəssis ola bilər.", logout:"Çıxış",
     needLoginT:"Giriş tələb olunur", needLoginP:"Skrininq üçün hesabınıza daxil olun.", goLogin:"Giriş səhifəsi",
     backHome:"‹ Panelə qayıt", pickT:"Uşağı seçin", pickP:"Skrininqi hansı uşaq üçün doldurursunuz?", pickEmpty:"Əlçatan uşaq yoxdur.",
     quizT:"İnkişaf Skrininqi", forChild:c=>"Uşaq: "+c, disc:"Bu ilkin skrininqdir, tibbi diaqnoz deyil. Hər bənd üçün ən uyğun cavabı seçin.",
@@ -281,7 +289,7 @@ const T = {
     planHigh2:"Bir neçə domen işarələnib. Mütəxəssis (loqoped/psixoloq/inkişaf terapevti) tərəfindən fərdi müdaxilə proqramının başlanması tövsiyə olunur; ev tapşırıqları ilə dəstəkləyin.",
     printBtn:"Çap / PDF", again:"Yeni skrininq", madeBy:"Hazırladı", saved:"Nəticə yadda saxlanıldı.", saveErr:"Saxlama xətası: ",
     fuSum:"İzləmə: ", fuMuddet:{yeni:"yeni",aylar:"bir neçə ay",coxdan:"çoxdan/doğuşdan"}, fuMuhit:{hamisi:"hər mühitdə",bezi:"bəzi mühitdə"}, fuGer:{beli:"geriləmə var",xeyr:"geriləmə yox"} },
-  ru:{ brandSub:"Скрининг развития v2", logout:"Выход",
+  ru:{ brandSub:"Скрининг развития v2", htT:"Что такое скрининг? Как проводить?", htWhat:"Скрининг — это краткая первичная проверка развития ребёнка с помощью вопросов. Это не диагноз; он лишь помогает выявить области, требующие внимания, и направить к специалисту.", htHow:"Как проводить: ребёнок должен быть спокоен и отдохнувшим; в каждом пункте выбирайте ответ по поведению за последние 1–2 месяца; отвечайте честно — по обычному дню (не по «лучшему»). Заполнять может родитель или специалист.", logout:"Выход",
     needLoginT:"Требуется вход", needLoginP:"Войдите в аккаунт для скрининга.", goLogin:"Страница входа",
     backHome:"‹ В панель", pickT:"Выберите ребёнка", pickP:"Для какого ребёнка заполняется скрининг?", pickEmpty:"Нет доступных детей.",
     quizT:"Скрининг развития", forChild:c=>"Ребёнок: "+c, disc:"Это предварительный скрининг, не медицинский диагноз. Выберите наиболее подходящий ответ.",
