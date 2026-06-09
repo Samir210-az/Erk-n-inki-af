@@ -70,6 +70,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{animation:none !important;}}
   @media print{
+    :root{--bg:#fff;--ink:#1a1a1a;--muted:#555;--line:#cfcfcf;--card:#fff;--brand:#1b6f64;--brand-dark:#155b52;--brand-soft:#eef5f3;--accent:#9a6a12;--amber-soft:#f6ecd9;--danger:#b03a2e;--danger-soft:#f7e7e4;}
     body{background:#fff;}
     .topbar .tools,.ans,.back,.btn,.note-disc.saved-msg,#saveMsg{display:none !important;}
     .card{box-shadow:none;border:none;padding:0;}
@@ -81,6 +82,12 @@
   .hero h1,.welcome h2,.card>h1{text-align:center;}
   .dash-head h3{color:var(--accent);}
   @media(min-width:768px){.child-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}}
+  .premium .rep-list{margin:6px 0 0;padding-left:18px;}
+  .premium .rep-list li{margin:9px 0;font-size:13.5px;line-height:1.5;color:var(--ink);font-weight:600;}
+  .premium .rep-list li b{color:var(--accent);}
+  .premium .rep-c{color:var(--muted);font-weight:700;font-size:12px;}
+  .premium .rep-ok{color:var(--ink);font-weight:600;font-size:14px;line-height:1.5;margin:4px 0 0;}
+  .premium .rep-p{color:var(--ink);font-weight:600;font-size:13.5px;line-height:1.55;margin:4px 0 0;}
 </style>
 </head>
 <body>
@@ -193,6 +200,10 @@ const UI = {
     referMed:"Tövsiyə: uşaq psixoloqu/psixiatrı olan ixtisaslaşmış psixoloji mərkəzdə mütəxəssis qiymətləndirməsindən keçin.",
     referHigh:"Təcili tövsiyə: ən qısa zamanda ixtisaslaşmış psixoloji mərkəzdə mütəxəssis qiymətləndirməsi planlaşdırın.",
     premiumT:"Dərinləşdirilmiş analiz (sahələr üzrə)", premiumLock:"🔒 Bu hissə Premium-da əlçatandır.",
+    repDiff:"Diqqət tələb edən sahələr", repNoDiff:"Bu skrininqdə narahatlıq doğuran sahə görünmür. İnkişafı izləməyə davam edin.", repPlan:"Qısa plan",
+    planLow:"İnkişaf tipik görünür. Yaşına uyğun oyun, ünsiyyət və hərəkət fəaliyyətlərini davam etdirin; dəyişiklik olarsa yenidən yoxlayın.",
+    planMed:"İşarələnmiş sahələrə gündəlik 10–15 dəqiqəlik məqsədli oyun/məşğələ ayırın. 4–6 həftə sonra təkrar skrininq edin. Davam edərsə mütəxəssisə müraciət edin.",
+    planHigh:"İşarələnmiş sahələr üzrə gündəlik məqsədli iş aparın və ən qısa zamanda mütəxəssis qiymətləndirməsi planlaşdırın. Geniş qiymətləndirmə (v2) tövsiyə olunur.",
     saved:"Nəticə uşağın kartına yazıldı.", saveErr:"Nəticə saxlanmadı",
     reportFor:"Hesabat:", reportDate:"Tarix:",
     domSosial:"Sosial / ünsiyyət", domKommunikasiya:"Kommunikasiya", domOyun:"Oyun / təqlid", domDavranis:"Davranış / sensor", domEmosional:"Emosional", domMotor:"Motorika", domOzunexidmet:"Özünəxidmət", domIdrak:"İdrak / koqnitiv" },
@@ -209,6 +220,10 @@ const UI = {
     referMed:"Рекомендация: пройдите оценку у специалиста в профильном психологическом центре.",
     referHigh:"Срочно: как можно скорее запланируйте оценку специалистом в профильном психологическом центре.",
     premiumT:"Углублённый анализ (по областям)", premiumLock:"🔒 Доступно в Premium.",
+    repDiff:"Области, требующие внимания", repNoDiff:"В этом скрининге областей для беспокойства не выявлено. Продолжайте наблюдение за развитием.", repPlan:"Краткий план",
+    planLow:"Развитие выглядит типичным. Продолжайте игры, общение и двигательную активность по возрасту; при изменениях пройдите скрининг повторно.",
+    planMed:"Уделяйте 10–15 минут в день целенаправленным занятиям по отмеченным областям. Повторите скрининг через 4–6 недель. Если сохраняется — обратитесь к специалисту.",
+    planHigh:"Ежедневно работайте над отмеченными областями и как можно скорее запланируйте оценку специалистом. Рекомендуется расширенная оценка (v2).",
     saved:"Результат сохранён в карте ребёнка.", saveErr:"Не удалось сохранить результат",
     reportFor:"Отчёт:", reportDate:"Дата:",
     domSosial:"Социальное / общение", domKommunikasiya:"Коммуникация", domOyun:"Игра / подражание", domDavranis:"Поведение / сенсорика", domEmosional:"Эмоции", domMotor:"Моторика", domOzunexidmet:"Самообслуживание", domIdrak:"Когнитивные" }
@@ -286,6 +301,16 @@ async function finish(){
   }catch(e){ const sm=document.getElementById("saveMsg"); sm.style.display="block"; sm.style.background="var(--danger-soft)"; sm.style.color="var(--danger)"; sm.textContent=t("saveErr")+" ("+(e?.code||e?.message||"")+")"; }
 }
 
+const V1TIPS={
+ sosial:{az:"Üz-üzə qısa oyunlarla göz təması və birgə diqqəti dəstəkləyin.",ru:"Поддерживайте зрительный контакт и совместное внимание через короткие игры лицом к лицу."},
+ kommunikasiya:{az:"Gün ərzində əşyaları adlandırın, sadə sözləri təkrarlamağa həvəsləndirin.",ru:"Называйте предметы в течение дня, поощряйте повторение простых слов."},
+ oyun:{az:"Növbəli və təqlid oyunları (ku-ku, top ötürmə) oynayın.",ru:"Играйте в игры с очерёдностью и подражанием (ку-ку, передача мяча)."},
+ emosional:{az:"Duyğuları adlandırın və sakitləşdirici gündəlik rejim qurun.",ru:"Называйте эмоции и установите успокаивающий распорядок дня."},
+ davranis:{az:"Aydın, sadə qaydalar və sabit gündəlik rejim tətbiq edin.",ru:"Применяйте простые чёткие правила и стабильный распорядок дня."},
+ motor:{az:"Hərəkətli oyunlar (qaçmaq, atlanmaq) və əl işləri (kublar, cızma) təklif edin.",ru:"Предлагайте подвижные игры (бег, прыжки) и ручную работу (кубики, рисование)."},
+ ozunexidmet:{az:"Yemək və geyinmə kimi işləri addım-addım birgə edin.",ru:"Выполняйте дела (еда, одевание) вместе, пошагово."},
+ idrak:{az:"Rəng, forma və sayı sadə oyunlarla tanıdın; qısa tapşırıqlar verin.",ru:"Знакомьте с цветами, формами и счётом через простые игры; давайте короткие задания."}
+};
 function renderResult(){
   if(!lastResult)return;
   const {total,dom,risk,date}=lastResult;
@@ -300,16 +325,16 @@ function renderResult(){
   else{refer.classList.remove("hidden");refer.textContent=(risk==="yuksek"?t("referHigh"):t("referMed"));}
   const p=document.getElementById("premiumBox");
   const domNames={sosial:"domSosial",kommunikasiya:"domKommunikasiya",oyun:"domOyun",emosional:"domEmosional",idrak:"domIdrak",motor:"domMotor",ozunexidmet:"domOzunexidmet",davranis:"domDavranis"};
-  if(currentTier==="premium" || isAdmin){
-    let html="<h3>"+t("premiumT")+"</h3>";
-    Object.keys(domNames).forEach(d=>{
-      const o=dom[d]||{flag:0,tot:0}; const pct=o.tot?Math.round(o.flag/o.tot*100):0;
-      html+='<div class="dom-row"><span style="min-width:128px">'+t(domNames[d])+'</span><span class="bar"><i style="width:'+pct+'%"></i></span><span>'+o.flag+'/'+o.tot+'</span></div>';
-    });
-    p.innerHTML=html;
-  }else{
-    p.innerHTML="<h3>"+t("premiumT")+"</h3><div class=\"lock\">"+t("premiumLock")+"</div>";
+  const flagged=Object.keys(domNames).map(d=>Object.assign({d},dom[d]||{flag:0,tot:0})).filter(o=>o.flag>0).sort((a,b)=>(b.flag/(b.tot||1))-(a.flag/(a.tot||1)));
+  let html="<h3>"+t("repDiff")+"</h3>";
+  if(!flagged.length){ html+='<p class="rep-ok">'+t("repNoDiff")+'</p>'; }
+  else{
+    html+='<ul class="rep-list">';
+    flagged.forEach(o=>{ const tip=V1TIPS[o.d]?V1TIPS[o.d][lang]:""; html+='<li><b>'+t(domNames[o.d])+'</b> <span class="rep-c">('+o.flag+'/'+o.tot+')</span><br>'+tip+'</li>'; });
+    html+='</ul>';
   }
+  html+='<h3 style="margin-top:14px;">'+t("repPlan")+'</h3><p class="rep-p">'+(risk==="asagi"?t("planLow"):risk==="orta"?t("planMed"):t("planHigh"))+'</p>';
+  p.innerHTML=html;
 }
 document.getElementById("printBtn").onclick=()=>window.print();
 document.getElementById("againBtn").onclick=()=>{ idx=0;answers={};lastResult=null;document.getElementById("saveMsg").style.display="none"; show("pick"); renderPick(); };
