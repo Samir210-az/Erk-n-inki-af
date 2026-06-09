@@ -29,10 +29,10 @@
   .lead{color:var(--muted);font-weight:600;font-size:14px;margin:0 0 14px;}
   .btn{width:100%;border:0;font-family:inherit;font-weight:800;font-size:16px;color:#fff;background:var(--brand);padding:15px;border-radius:14px;cursor:pointer;transition:transform .08s;text-align:center;text-decoration:none;display:block;}
   .btn:active{transform:scale(.985);}
-  .btn.secondary{background:var(--card);color:var(--brand-dark);border:1.5px solid var(--line);}
+  .btn.secondary{background:var(--card);color:var(--accent);border:1.5px solid var(--line);}
   .btn:disabled{opacity:.55;}
   .hidden{display:none !important;}
-  .back{display:inline-block;color:var(--brand-dark);font-weight:800;font-size:13px;text-decoration:none;margin-bottom:10px;cursor:pointer;}
+  .back{display:inline-block;color:var(--accent);font-weight:800;font-size:13px;text-decoration:none;margin-bottom:10px;cursor:pointer;}
   .disc{background:var(--amber-soft);color:#7a5512;border-radius:12px;padding:11px 13px;font-size:12.5px;font-weight:700;margin:6px 0 14px;line-height:1.5;}
   .pickitem{width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:9px;font-family:inherit;font-weight:800;font-size:15px;color:var(--ink);cursor:pointer;}
   .dgroup{margin-bottom:6px;}
@@ -151,7 +151,7 @@
 import { onUser, logout } from "./auth.js";
 import { db } from "./firebase-init.js";
 import { ref, get } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
-import { SABIT_DOMENLER, DOMEN_ETIKETLERI, listMyChildren, addSkrininqNeticesi } from "./children.js";
+import { SABIT_DOMENLER, DOMEN_ETIKETLERI, listMyChildren, listAllChildren, getChild, addSkrininqNeticesi } from "./children.js";
 
 // ── AN-Skrininq-v2 — orijinal, geniş inkişaf, 7 domen, hər bənd 0/1/2 (narahatlıq) ──
 const ITEMS = {
@@ -456,9 +456,11 @@ onUser(async (user, rol)=>{
   let tier="pulsuz";
   try{ const ts=await get(ref(db,"users/"+user.uid+"/tier")); if(ts.exists()) tier=ts.val(); }catch{}
   canDetail = (tier==="premium" || rol==="admin" || rol==="terapevt" || user.email==="samir.akhundoff@gmail.com");
-  try{ children=await listMyChildren(user.uid); }catch{ children=[]; }
+  const staff=(rol==="admin"||rol==="terapevt");
+  try{ children = staff ? await listAllChildren() : await listMyChildren(user.uid); }catch{ children=[]; }
   const wantChild=getParam("child");
-  const pre=wantChild ? children.find(c=>c.id===wantChild) : null;
+  let pre = wantChild ? (children.find(c=>c.id===wantChild)||null) : null;
+  if(!pre && wantChild){ try{ pre=await getChild(wantChild); }catch{ pre=null; } }
   if(pre) startQuiz(pre); else { show("pick"); renderPick(); }
 });
 </script>
