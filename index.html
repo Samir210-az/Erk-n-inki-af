@@ -239,7 +239,7 @@ const I18N = {
     newChild:"Yeni uşaq-kartı",
     premiumTitle:"Premium", premiumDesc:"Premium ilə skrininq nəticələrində sahələr üzrə ətraflı analiz açılır.",
     premiumActiveLbl:"✓ Premium aktivdir", premiumFreeLbl:"Cari plan: Pulsuz", premiumActivate:"Aktivləşdir", premiumPh:"Aktivasiya kodu",
-    premiumOk:"✓ Premium aktivləşdirildi!", premiumErrEmpty:"Kodu daxil edin.", premiumErrNotFound:"Kod tapılmadı.", premiumErrUsed:"Bu kod artıq istifadə olunub.", premiumErrGeneric:"Xəta baş verdi. Yenidən cəhd edin.",
+    premiumOk:"✓ Premium aktivləşdirildi!", premiumErrEmpty:"Kodu daxil edin.", premiumErrNotFound:"Kod tapılmadı.", premiumErrUsed:"Bu kod artıq istifadə olunub.", premiumErrExpired:"Kodun vaxtı bitib.", premiumErrNotYours:"Bu kod sizin üçün deyil.", premiumErrGeneric:"Xəta baş verdi. Yenidən cəhd edin.",
     consentText:"Bu məlumatlar yalnız övladınızın inkişafını izləmək üçündür. Təhlükəsiz saxlanılır və yalnız siz, təyin olunmuş terapevt və mərkəz admini görə bilər. Razılığı istənilən vaxt geri götürə bilərsiniz.",
     consentAgree:"Razılıq verirəm", childName:"Uşağın adı", birthDate:"Doğum tarixi", gender:"Cins", genderPick:"Seçin", boy:"Oğlan", girl:"Qız",
     cancel:"Ləğv et", create:"Yarat", close:"Bağla", startScreening:"Skrininq et", startScreeningV2:"İnkişaf skrininqi (v2)",
@@ -259,7 +259,7 @@ const I18N = {
     newChild:"Новая карта ребёнка",
     premiumTitle:"Премиум", premiumDesc:"С Премиумом в результатах скрининга открывается подробный анализ по областям.",
     premiumActiveLbl:"✓ Премиум активен", premiumFreeLbl:"Текущий план: Бесплатный", premiumActivate:"Активировать", premiumPh:"Код активации",
-    premiumOk:"✓ Премиум активирован!", premiumErrEmpty:"Введите код.", premiumErrNotFound:"Код не найден.", premiumErrUsed:"Этот код уже использован.", premiumErrGeneric:"Произошла ошибка. Попробуйте снова.",
+    premiumOk:"✓ Премиум активирован!", premiumErrEmpty:"Введите код.", premiumErrNotFound:"Код не найден.", premiumErrUsed:"Этот код уже использован.", premiumErrExpired:"Срок действия кода истёк.", premiumErrNotYours:"Этот код не для вас.", premiumErrGeneric:"Произошла ошибка. Попробуйте снова.",
     consentText:"Эти данные используются только для отслеживания развития вашего ребёнка. Хранятся безопасно и доступны только вам, назначенному терапевту и администратору центра. Согласие можно отозвать в любое время.",
     consentAgree:"Я даю согласие", childName:"Имя ребёнка", birthDate:"Дата рождения", gender:"Пол", genderPick:"Выберите", boy:"Мальчик", girl:"Девочка",
     cancel:"Отмена", create:"Создать", close:"Закрыть", startScreening:"Пройти скрининг", startScreeningV2:"Скрининг развития (v2)",
@@ -430,6 +430,8 @@ premiumBtnEl.addEventListener("click", async ()=>{
     if(!snap.exists()){ premMsg("err",t("premiumErrNotFound")); premiumBtnEl.disabled=false; return; }
     const v=snap.val()||{};
     if(v.istifadeBy){ premMsg("err",t("premiumErrUsed")); premiumBtnEl.disabled=false; return; }
+    if(v.valideynUid && v.valideynUid!==currentUid){ premMsg("err",t("premiumErrNotYours")); premiumBtnEl.disabled=false; return; }
+    if(v.bitmeTarixi && Date.now()>v.bitmeTarixi){ premMsg("err",t("premiumErrExpired")); premiumBtnEl.disabled=false; return; }
     await update(ref(db),{
       ["premiumKodlar/"+kod+"/istifadeBy"]: currentUid,
       ["premiumKodlar/"+kod+"/istifadeTarixi"]: Date.now(),
