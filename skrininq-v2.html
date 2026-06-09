@@ -72,6 +72,7 @@
     .card{padding:26px 28px;}
   }
   @media print{
+    :root{--bg:#fff;--ink:#1a1a1a;--muted:#555;--line:#cfcfcf;--card:#fff;--brand:#1b6f64;--brand-dark:#155b52;--brand-soft:#eef5f3;--accent:#9a6a12;--amber-soft:#f6ecd9;--danger:#b03a2e;--danger-soft:#f7e7e4;}
     body{background:#fff;}
     .topbar,.prog,.btn,.back,.lang,.logout-ico{display:none !important;}
     .card{box-shadow:none;border:1px solid #ccc;}
@@ -82,6 +83,12 @@
   .hero h1,.welcome h2,.card>h1{text-align:center;}
   .dash-head h3{color:var(--accent);}
   @media(min-width:768px){.child-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}}
+  .premium .dcard{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin:10px 0;}
+  .premium .dcard .dh{font-weight:800;color:var(--accent);font-size:14px;margin-bottom:6px;}
+  .premium .dcard p{margin:5px 0;font-size:13px;line-height:1.5;color:var(--ink);font-weight:600;}
+  .premium .dcard p b{color:var(--brand-dark);}
+  .premium .rep-ok{color:var(--ink);font-weight:600;font-size:13.5px;line-height:1.5;}
+  .premium .rep-p{color:var(--ink);font-weight:600;font-size:13.5px;line-height:1.55;margin:4px 0 0;}
 </style>
 </head>
 <body>
@@ -139,6 +146,12 @@
     <div class="sumbox hidden" id="fuSummary"></div>
     <button class="btn secondary" id="printBtn" data-i18n="printBtn">Çap / PDF</button>
     <button class="btn" id="againBtn" style="margin-top:10px;" data-i18n="again">Yeni skrininq</button>
+  </div>
+
+  <div class="card hidden" id="premiumGate">
+    <h1 data-i18n="gateT">Premium bölmə</h1>
+    <p class="lead" data-i18n="gateMsg">Geniş inkişaf skrininqi (v2) premium xidmətdir. Aktivləşdirmək üçün AN mərkəzi ilə əlaqə saxlayın.</p>
+    <a class="btn" href="./index.html" style="display:block;text-decoration:none;text-align:center;" data-i18n="gateBtn">Panelə qayıt</a>
   </div>
 
   <div class="foot">
@@ -260,6 +273,12 @@ const T = {
     refReg:" Əvvəl qazanılmış bacarığın itirilməsi mütləq mütəxəssis qiymətləndirməsi tələb edir.",
     refRecent:" Çətinliklər yeni və yalnız bəzi mühitlərdə olduğundan, bir müddət müşahidə edib təkrar qiymətləndirmək olar.",
     premiumT:"Domenlər üzrə təhlil", premiumLock:"🔒 Bu hissə Premium istifadəçilər və mütəxəssislər üçün əlçatandır.",
+    gateT:"Premium bölmə", gateMsg:"Geniş inkişaf skrininqi (v2) premium xidmətdir. Aktivləşdirmək üçün AN mərkəzi ilə əlaqə saxlayın və premium kodu alın.", gateBtn:"Panelə qayıt",
+    repClin:"Ətraflı klinik analiz", repKlinik:"Klinik şərh", repMudaxile:"Müdaxilə fokusu", repEv:"Valideyn üçün ev tapşırığı",
+    repNoDiff2:"İşarələnmiş domen yoxdur — inkişaf bu sahələrdə yaşa uyğun görünür.", repPlanT:"Ümumi iş planı",
+    planLow2:"Risk aşağıdır. Yaşa uyğun inkişaf fəaliyyətlərini davam etdirin və 3–4 ay sonra təkrar qiymətləndirin.",
+    planMed2:"İşarələnmiş domenlər üzrə həftədə 3–5 dəfə məqsədli məşğələ planlaşdırın. 6–8 həftədən sonra irəliləyişi yenidən qiymətləndirin; davam edərsə mütəxəssis müdaxiləsinə başlayın.",
+    planHigh2:"Bir neçə domen işarələnib. Mütəxəssis (loqoped/psixoloq/inkişaf terapevti) tərəfindən fərdi müdaxilə proqramının başlanması tövsiyə olunur; ev tapşırıqları ilə dəstəkləyin.",
     printBtn:"Çap / PDF", again:"Yeni skrininq", madeBy:"Hazırladı", saved:"Nəticə yadda saxlanıldı.", saveErr:"Saxlama xətası: ",
     fuSum:"İzləmə: ", fuMuddet:{yeni:"yeni",aylar:"bir neçə ay",coxdan:"çoxdan/doğuşdan"}, fuMuhit:{hamisi:"hər mühitdə",bezi:"bəzi mühitdə"}, fuGer:{beli:"geriləmə var",xeyr:"geriləmə yox"} },
   ru:{ brandSub:"Скрининг развития v2", logout:"Выход",
@@ -278,6 +297,12 @@ const T = {
     refReg:" Потеря ранее приобретённого навыка обязательно требует оценки специалистом.",
     refRecent:" Поскольку трудности недавние и проявляются лишь в части сред, можно понаблюдать и пройти повторную оценку.",
     premiumT:"Анализ по доменам", premiumLock:"🔒 Доступно для Premium и специалистов.",
+    gateT:"Премиум-раздел", gateMsg:"Расширенный скрининг развития (v2) — премиум-услуга. Для активации свяжитесь с центром AN и получите премиум-код.", gateBtn:"Вернуться в панель",
+    repClin:"Подробный клинический анализ", repKlinik:"Клинический комментарий", repMudaxile:"Фокус вмешательства", repEv:"Домашнее задание для родителя",
+    repNoDiff2:"Отмеченных доменов нет — развитие в этих областях выглядит соответствующим возрасту.", repPlanT:"Общий план работы",
+    planLow2:"Риск низкий. Продолжайте развивающие занятия по возрасту и пройдите повторную оценку через 3–4 месяца.",
+    planMed2:"Планируйте целенаправленные занятия по отмеченным доменам 3–5 раз в неделю. Через 6–8 недель оцените прогресс; при сохранении начните вмешательство специалиста.",
+    planHigh2:"Отмечено несколько доменов. Рекомендуется начать индивидуальную программу вмешательства со специалистом (логопед/психолог/терапевт развития); поддерживайте домашними заданиями.",
     printBtn:"Печать / PDF", again:"Новый скрининг", madeBy:"Автор", saved:"Результат сохранён.", saveErr:"Ошибка сохранения: ",
     fuSum:"Наблюдение: ", fuMuddet:{yeni:"недавно",aylar:"несколько месяцев",coxdan:"давно/с рождения"}, fuMuhit:{hamisi:"во всех средах",bezi:"в некоторых средах"}, fuGer:{beli:"есть регресс",xeyr:"нет регресса"} },
 };
@@ -288,7 +313,7 @@ let answers={}, fuAnswers={}, computed=null, saved=false;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
 const t=k=>{const v=T[lang][k];return v;};
-function show(id){["authGate","pick","quiz","followup","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id));}
+function show(id){["authGate","pick","quiz","followup","result","premiumGate"].forEach(x=>$(x).classList.toggle("hidden",x!==id));}
 function childName(c){return (c.profil&&c.profil.ad)||"—";}
 
 function applyLang(){
@@ -355,6 +380,15 @@ function referText(){
   return s;
 }
 
+const V2CONTENT={
+ nitq:{klinik:{az:"Dil/ünsiyyət sahəsində yaşa uyğun geriləmə işarələri (anlama və/və ya danışıq).",ru:"Признаки отставания в речи/коммуникации по возрасту (понимание и/или речь)."},mudaxile:{az:"Nitqin stimullaşdırılması: model cümlələr, adlandırma, gözlə-cavab; lazım olarsa loqoped qiymətləndirməsi.",ru:"Стимуляция речи: моделирование фраз, называние, пауза-ответ; при необходимости оценка логопеда."},ev:{az:"Gün ərzində gördüklərinizi sadə cümlələrlə təsvir edin; uşağın səs/söz cəhdlərini təkrarlayıb genişləndirin (gündə 10 dəq).",ru:"Описывайте простыми фразами происходящее; повторяйте и расширяйте звуки/слова ребёнка (10 мин/день)."}},
+ sosial:{klinik:{az:"Sosial-emosional qarşılıqlı əlaqədə (göz təması, birgə diqqət, növbəlilik) çətinliklər.",ru:"Трудности в социально-эмоциональном взаимодействии (контакт глаз, совместное внимание, очерёдность)."},mudaxile:{az:"Birgə diqqət və qarşılıqlı oyun üzərində iş; duyğuların tanınması və adlandırılması.",ru:"Работа над совместным вниманием и взаимной игрой; распознавание и называние эмоций."},ev:{az:"Hər gün üz-üzə növbəli oyunlar (top ötürmə, ku-ku); uşağın baxışını izləyib reaksiya verin.",ru:"Ежедневно играйте лицом к лицу с очерёдностью (мяч, ку-ку); следите за взглядом и реагируйте."}},
+ davranis:{klinik:{az:"Davranış tənzimlənməsi/sensor sahədə çətinliklər (özünütənzimləmə, keçidlər, sensor reaksiyalar).",ru:"Трудности в саморегуляции/сенсорике (переходы, сенсорные реакции)."},mudaxile:{az:"Proqnozlaşdırıla bilən rejim, vizual cədvəl, keçidlərə hazırlıq; sensor ehtiyacların tənzimlənməsi.",ru:"Предсказуемый режим, визуальное расписание, подготовка к переходам; регуляция сенсорных потребностей."},ev:{az:"Gün rejimini şəkilli cədvəllə göstərin; fəaliyyət dəyişməzdən əvvəl xəbərdarlıq edin (’5 dəqiqədən sonra...’).",ru:"Показывайте режим дня картинками; предупреждайте перед сменой занятия (’через 5 минут...’)."}},
+ ozunexidmet:{klinik:{az:"Gündəlik özünəxidmət bacarıqlarında (yemək, geyinmə, gigiyena) müstəqillik yaşa uyğun deyil.",ru:"Самостоятельность в самообслуживании (еда, одевание, гигиена) не соответствует возрасту."},mudaxile:{az:"Bacarıqların addımlara bölünməsi (task analysis), köməyin tədricən azaldılması.",ru:"Разбивка навыков на шаги (анализ задачи), постепенное уменьшение помощи."},ev:{az:"Bir bacarıq seçin (məs. corab geyinmək); hər gün son addımı uşağa tamamlatdırın, sonra geri doğru artırın.",ru:"Выберите навык (напр. надеть носок); пусть ребёнок завершает последний шаг, затем расширяйте назад."}},
+ idrak:{klinik:{az:"İdrak/oyun sahəsində (anlayışlar, problem həlli, simvolik oyun) yaşa uyğun geriləmə.",ru:"Отставание в когнитивной/игровой сфере (понятия, решение задач, символическая игра)."},mudaxile:{az:"Anlayışların (rəng, forma, say) oyunla öyrədilməsi; simvolik oyunun modelləşdirilməsi.",ru:"Обучение понятиям (цвет, форма, счёт) через игру; моделирование символической игры."},ev:{az:"Gündəlik əşyalarla çeşidləmə/uyğunlaşdırma oyunları; ’sanki’ oyunlar (kukla yedizdirmək) oynayın.",ru:"Игры на сортировку/сопоставление с бытовыми предметами; игры ’понарошку’ (кормить куклу)."}},
+ "boyuk-motorika":{klinik:{az:"Böyük motor bacarıqlarında (tarazlıq, qaçmaq, tullanmaq) yaşa uyğun geriləmə.",ru:"Отставание в крупной моторике (равновесие, бег, прыжки)."},mudaxile:{az:"Tarazlıq və koordinasiya məşqləri; təhlükəsiz hərəkət fəaliyyətləri.",ru:"Упражнения на равновесие и координацию; безопасная двигательная активность."},ev:{az:"Gündə 10–15 dəq hərəkət: bir ayaq üstə durmaq, yastıq üstündən tullanmaq, top atıb-tutmaq.",ru:"10–15 мин/день: стоять на одной ноге, прыгать через подушку, бросать-ловить мяч."}},
+ "ince-motorika":{klinik:{az:"İncə motor bacarıqlarında (əl-göz koordinasiyası, qələm tutuşu) çətinliklər.",ru:"Трудности в мелкой моторике (зрительно-моторная координация, захват карандаша)."},mudaxile:{az:"Əl əzələlərini gücləndirən fəaliyyətlər; qələm tutuşunun formalaşdırılması.",ru:"Упражнения для укрепления мышц рук; формирование захвата карандаша."},ev:{az:"Plastilin, muncuq düzmə, kağız cırma, iri düymələri açıb-bağlama (gündə 10 dəq).",ru:"Пластилин, нанизывание бусин, рвать бумагу, застёгивать крупные пуговицы (10 мин/день)."}}
+};
 function renderResult(){
   $("resFor").textContent=t("forChild")(childName(selected));
   const band=$("riskBand");
@@ -371,6 +405,14 @@ function renderResult(){
       const dmax=ITEMS[dk].length*2, sc=computed.domainScores[dk], pct=Math.round(sc/dmax*100), hi=sc>=ITEMS[dk].length;
       html+=`<div class="bar"><div class="bl"><span>${esc(DOMEN_ETIKETLERI[dk][lang])}${hi?` <span class="flag">●</span>`:""}</span><span>${sc}/${dmax}</span></div><div class="track"><div class="fill${hi?" hi":""}" style="width:${pct}%"></div></div></div>`;
     });
+    const flaggedD=SABIT_DOMENLER.filter(dk=>computed.domainScores[dk]>=ITEMS[dk].length);
+    html+=`<h3 style="margin-top:16px">${esc(t("repClin"))}</h3>`;
+    if(flaggedD.length){
+      flaggedD.forEach(dk=>{ const c=V2CONTENT[dk]; if(!c) return;
+        html+=`<div class="dcard"><div class="dh">${esc(DOMEN_ETIKETLERI[dk][lang])}</div><p><b>${esc(t("repKlinik"))}:</b> ${esc(c.klinik[lang])}</p><p><b>${esc(t("repMudaxile"))}:</b> ${esc(c.mudaxile[lang])}</p><p><b>${esc(t("repEv"))}:</b> ${esc(c.ev[lang])}</p></div>`;
+      });
+    } else { html+=`<p class="rep-ok">${esc(t("repNoDiff2"))}</p>`; }
+    html+=`<h3 style="margin-top:16px">${esc(t("repPlanT"))}</h3><p class="rep-p">${esc(computed.risk==="asagi"?t("planLow2"):computed.risk==="orta"?t("planMed2"):t("planHigh2"))}</p>`;
     p.innerHTML=html;
   } else {
     p.innerHTML=`<h3>${esc(t("premiumT"))}</h3><div class="lock">${esc(t("premiumLock"))}</div>`;
@@ -456,6 +498,7 @@ onUser(async (user, rol)=>{
   let tier="pulsuz";
   try{ const ts=await get(ref(db,"users/"+user.uid+"/tier")); if(ts.exists()) tier=ts.val(); }catch{}
   canDetail = (tier==="premium" || rol==="admin" || rol==="terapevt" || user.email==="samir.akhundoff@gmail.com");
+  if(!canDetail){ show("premiumGate"); return; }
   const staff=(rol==="admin"||rol==="terapevt");
   try{ children = staff ? await listAllChildren() : await listMyChildren(user.uid); }catch{ children=[]; }
   const wantChild=getParam("child");
